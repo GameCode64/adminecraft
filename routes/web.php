@@ -65,7 +65,7 @@ Route::get('/users', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
 
-    return view('body/users', [
+    return view("body/index-users", [
         "Route" => "users",
     ]);
 });
