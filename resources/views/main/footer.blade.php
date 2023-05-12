@@ -18,6 +18,7 @@
     integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
     crossorigin="anonymous"></script>
   <script src="js/main.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>
