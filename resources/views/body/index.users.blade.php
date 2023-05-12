@@ -8,7 +8,24 @@
             <div class="card bg-dark border-secondary">
               <div class="card-header  bg-dark text-light h1 text-center">Users</div>
               <div class="card-body bg-dark text-light">
-                
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Game Name
+                      </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Email
+                      </th>
+                      <th>
+                        death counts
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
               </div>
             </div>
           </div>
