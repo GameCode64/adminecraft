@@ -89,5 +89,13 @@ Route::get('/logout', function () {
 });
 
 Route::post('/login', function (Request $Request) {
-    return (new LoginController)->Login($Request);
+    $Login = (new LoginController)->Login($Request);
+    if($Login["Status"])
+    {
+        return $Login["Action"];
+    }
+    else
+    {
+        return view("login", ["ErrorMessage" => $Login["Message"]]);
+    }
 });

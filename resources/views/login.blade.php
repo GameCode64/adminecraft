@@ -93,6 +93,9 @@
         <div class="card bg-dark border-secondary">
           <div class="card-header  bg-dark text-light h1 text-center">LOGIN</div>
           <div class="card-body bg-dark text-light">
+            @isset($ErrorMessage)
+            <div class="alert alert-danger">{{$ErrorMessage}}</div>
+            @endif
             <form method="POST" class="pt-3">
               @csrf
               <div class="form-outline mb-4">
