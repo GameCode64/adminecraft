@@ -7,8 +7,8 @@
           <div class="col-12">
             <div class="card bg-dark border-secondary">
               <div class="card-header  bg-dark text-light h1 text-center">Users</div>
-              <div class="card-body bg-dark text-light">
-                <table id="UserTable" style="w-100">
+              <div class="card-body bg-dark text-light table-responsive">
+                <table id="UserTable" class="table table-striped table-hover table-dark fluid w-100">
                   <thead>
                     <tr>
                       <th>
@@ -23,50 +23,62 @@
                       <th>
                         death counts
                       </th>
+                      <th>
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
 
-                    <tr>
+                    <tr class="">
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>3</td>
+                      <td>
+                        <button type="button" class="btn btn-sm btn-primary"><i data-feather="eye"></i></button>
+                        <button type="button" class="btn btn-sm btn-success"><i data-feather="edit"></i></button>
+                      <button type="button" class="btn btn-sm btn-danger"><i data-feather="trash"></i></button></td>
                   </tr>
                   
                     <tr>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
-                      <td>3</td>
+                      <td>2</td>
+                      <td></td>
                   </tr>
                   
                     <tr>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
-                      <td>3</td>
+                      <td>1</td>
+                      <td></td>
                   </tr>
                   
                     <tr>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
-                      <td>3</td>
+                      <td>4</td>
+                      <td></td>
                   </tr>
                   
                     <tr>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
-                      <td>3</td>
+                      <td>5</td>
+                      <td></td>
                   </tr>
                   
                     <tr>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
                       <td>assdfasdf</td>
-                      <td>3</td>
+                      <td>7</td>
+                      <td></td>
                   </tr>
                   
                 </tbody>
@@ -82,10 +94,12 @@
   <!-- BODY -->
 
 
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+
   <script>
-    $(document).ready( function () {
-    $('#UserTable').DataTable();
-} );
-  </script>
+      $(document).ready( function () {
+      $('#UserTable').DataTable();
+  } );
+    </script>
 
   @include("main/footer")
