@@ -38,7 +38,7 @@
                       <td>
                         <button type="button" class="btn btn-sm btn-primary"><i data-feather="eye"></i></button>
                         <button type="button" class="btn btn-sm btn-success"><i data-feather="edit"></i></button>
-                      <button type="button" class="btn btn-sm btn-danger"><i data-feather="trash"></i></button></td>
+                        <button type="button" class="btn btn-sm btn-danger"><i data-feather="trash"></i></button></td>
                   </tr>
                   
                     <tr>

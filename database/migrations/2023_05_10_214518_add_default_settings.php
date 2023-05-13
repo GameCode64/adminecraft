@@ -63,7 +63,7 @@ return new class extends Migration
                     "Value"=>"~/ssh.pub"
                 ]
             ],
-            []
+            ["id"]
         );
     }
 
