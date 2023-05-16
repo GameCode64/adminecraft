@@ -93,19 +93,31 @@
         <div class="card bg-dark border-secondary ">
           <div class="card-header login  bg-dark text-light h1 text-center">LOGIN</div>
           <div class="card-body bg-dark text-light">
-            @isset($ErrorMessage)
-            <div class="alert @if($Status) alert-success @else alert-danger @endif">{{$ErrorMessage}}</div>
+            @isset($Return)
+            <div class="alert @if($Return["Status"]) alert-success @else alert-danger @endif">{{$Return["Message"]}}</div>
             @endif
-            <form method="POST" action="/login" class="pt-3">
+            <form method="POST" class="pt-3">
               @csrf
+              <div class="text-center">
+                <p>Already have a account? <a href="/login">Login</a></p>
+              </div>
               <div class="form-outline mb-4">
-                <input type="email" name="email" id="Email" class="form-control" />
+                <input type="email" @isset($Return["email"]) @if($Return["Status"]) value={{$Return["email"]}}@endif @endif name="email" id="Email" class="form-control" required/>
                 <label class="form-label" for="Email">Email address</label>
               </div>
               <div class="form-outline mb-4">
-                <input type="password" id="Password" name="password" class="form-control" />
+                <input type="password" id="Password" @isset($Return["password"]) @if($Return["Status"]) value={{$Return["password"]}}@endif @endif name="password" class="form-control" required/>
                 <label class="form-label"  for="Password">Password</label>
               </div>
+              <div class="form-outline mb-4">
+                <input type="password" id="ConfPassword" @isset($Return["confpassword"]) @if($Return["Status"]) value={{$Return["confpassword"]}}@endif @endif name="confpassword" class="form-control" required/>
+                <label class="form-label"  for="ConfPassword">Confirm Password</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" @isset($Return["username"]) @if($Return["Status"]) value={{$Return["username"]}}@endif @endif name="username" id="username" class="form-control" required/>
+                <label class="form-label" for="username">Minecraft Username</label>
+              </div>
+              
               {{-- <div class="row mb-4">
                 <div class="col">
                   <a href="#!">Forgot password?</a>
@@ -113,12 +125,10 @@
               </div> --}}
 
               <!-- Submit button -->
-              <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Sign in</button>
+              <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Sign up</button>
 
-              <!-- Register buttons -->
-              <div class="text-center">
-                <p>Not a member? <a href="/register">Register</a></p>
-              </div>
+
+
             </form>
           </div>
 

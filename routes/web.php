@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\Login;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/', function () {
 
     return view('body/dashboard', [
         "Route" => "dashboard",
+        "Session" => Session::all(),
     ]);
 });
 
@@ -32,6 +34,7 @@ Route::get('/console', function () {
 
     return view('body/console', [
         "Route" => "console",
+        "Session" => Session::all(),
         "Log" => AsyncController::GetInitialLog(),
     ]);
 });
@@ -49,6 +52,7 @@ Route::get('/filemanager', function () {
 
     return view('body/filemanager', [
         "Route" => "filemanager",
+        "Session" => Session::all(),
     ]);
 });
 
@@ -58,6 +62,7 @@ Route::get('/logs', function () {
 
     return view('body/logs', [
         "Route" => "logs",
+        "Session" => Session::all(),
     ]);
 });
 
@@ -67,6 +72,7 @@ Route::get('/users', function () {
 
     return view("body/index-users", [
         "Route" => "users",
+        "Session" => Session::all(),
     ]);
 });
 
@@ -76,12 +82,22 @@ Route::get('/myaccount', function () {
 
     return view('body/myaccount', [
         "Route" => "myaccount",
+        "Session" => Session::all(),
     ]);
 });
 
 Route::get('/login', function () {
     return view("login");
 })->name("login");
+
+Route::get('/verifyregistration', function (Request $Request) {
+    $Verify = (new LoginController)->Verify($Request);
+    return view("login", ["ErrorMessage" => $Verify["Message"], "Status" => $Verify["Status"]]);
+})->name("verify");
+
+Route::get('/register', function () {
+    return view("register");
+})->name("register");
 
 Route::get('/logout', function () {
     (new LoginController)->Logout();
@@ -96,6 +112,19 @@ Route::post('/login', function (Request $Request) {
     }
     else
     {
-        return view("login", ["ErrorMessage" => $Login["Message"]]);
+        return view("login", ["ErrorMessage" => $Login["Message"], "Status" => $Login["Status"]]);
+    }
+});
+
+Route::post('/register', function (Request $Request) {
+    $Register = (new LoginController)->Register($Request);
+    if($Register["Status"])
+    {
+        return view("register", ["Return" => $Register]);
+        //return $Register["Action"];
+    }
+    else
+    {
+        return view("register", ["Return" => $Register]);
     }
 });

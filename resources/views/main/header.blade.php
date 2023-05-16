@@ -95,6 +95,13 @@
         <div class="position-sticky pt-3">
           <ul class="nav flex-column text-light">
 
+            <li class="nav-item nav-link text-light text-center p-0">
+              
+                Welcome {{$Session["Name"]}}
+            </li>
+            <li class="nav-item">
+              <hr class=" text-light" />
+          </li>
             <li class="nav-item">
               <a class="nav-link @if($Route == "dashboard") active @else text-light @endif" aria-current="page" href="/">
                 <span data-feather="home"></span>
