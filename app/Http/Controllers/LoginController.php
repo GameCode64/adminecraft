@@ -35,10 +35,7 @@ class LoginController extends Controller
     public function IsLoggedIn()
     {
 
-        if (Session::get("Name") == null) {
-            return false;
-        }
-        return true;
+        return !Session::get("Name") == null;
     }
 
     public function Logout()
@@ -95,5 +92,10 @@ class LoginController extends Controller
         }
         return array("Status"=>false, "Message"=>"Login credentials are incorrent or not existing!");
 
+    }
+
+    public function IsAdmin()
+    {
+        return Session::get("Authority") >= 2 ;
     }
 }

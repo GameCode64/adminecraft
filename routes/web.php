@@ -31,6 +31,8 @@ Route::get('/', function () {
 Route::get('/console', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/");
 
     return view('body/console', [
         "Route" => "console",
@@ -42,6 +44,8 @@ Route::get('/console', function () {
 Route::get('/console/log', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/");
 
     return AsyncController::GetLive();
 })->name("console.log");
@@ -49,6 +53,8 @@ Route::get('/console/log', function () {
 Route::get('/filemanager', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/");
 
     return view('body/filemanager', [
         "Route" => "filemanager",
@@ -59,6 +65,8 @@ Route::get('/filemanager', function () {
 Route::get('/logs', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/");
 
     return view('body/logs', [
         "Route" => "logs",
@@ -69,6 +77,8 @@ Route::get('/logs', function () {
 Route::get('/users', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/");
 
     return view("body/index-users", [
         "Route" => "users",

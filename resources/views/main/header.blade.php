@@ -108,7 +108,8 @@
                 Dashboard
               </a>
             </li>
-
+            
+            @if($Session["Authority"] >=2 )
             <li class="nav-item">
               <a class="nav-link @if($Route == "console") active @else text-light @endif" href="/console">
                 <span data-feather="terminal"></span>
@@ -136,7 +137,8 @@
                 Users
               </a>
             </li>
-
+            @endif
+            
             <li class="nav-item">
               <a class="nav-link  @if($Route == "myaccount") active @else text-light @endif" href="/myaccount">
                 <span data-feather="user"></span>
@@ -147,13 +149,15 @@
             <li class="nav-item">
                 <hr class=" text-light" />
             </li>
-
+            
+            @if($Session["Authority"] >=2 )
             <li class="nav-item">
               <a class="nav-link text-light" href="#">
                 <span data-feather="settings"></span>
                 Settings
               </a>
             </li>
+            @endif
 
             <li class="nav-item">
               <a class="nav-link text-light" href="/logout">
