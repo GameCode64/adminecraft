@@ -7,9 +7,6 @@
         <div class="col-12">
             <div class="card bg-dark border-secondary">
                 <div class="card-header  bg-dark text-light h1 text-center">Logs</div>
-                
-                {{-- <input class="form-control form-control-dark hidden col-11" onkeypress="SendCommand(event)"
-                    type="text" id="CommandBox" name="Command" placeholder="Enter command..." aria-label="command"> --}}
                     <select id="fileSelector" class="form-control form-control-dark hidden col-11" onchange="FetchSelectedLog()" name="" id="">
                         <option class="form-control form-control-dark bg-dark text-light" selected value="null">Select a log...</option>
                         @foreach ( $Logs as $Log )
@@ -18,8 +15,7 @@
                     </select>
                 <div class="card-body bg-dark text-light card-console">
                     <div class="console" id="console">
-                        <pre class="pb-2" id="console-content">
-                        </pre>
+                        <pre class="pb-2" id="console-content"></pre>
                     </div>
                 </div>
             </div>
