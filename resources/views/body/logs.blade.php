@@ -11,7 +11,7 @@
                 {{-- <input class="form-control form-control-dark hidden col-11" onkeypress="SendCommand(event)"
                     type="text" id="CommandBox" name="Command" placeholder="Enter command..." aria-label="command"> --}}
                     <select id="fileSelector" class="form-control form-control-dark hidden col-11" onchange="FetchSelectedLog()" name="" id="">
-                      <option class="form-control form-control-dark bg-dark text-light" selected value="">Select a log...</option>
+                        <option class="form-control form-control-dark bg-dark text-light" selected value="null">Select a log...</option>
                         @foreach ( $Logs as $Log )
                         <option class="form-control form-control-dark bg-dark text-light" value="{{$Log}}">{{$Log}}</option>
                         @endforeach
@@ -33,7 +33,6 @@
     var objDiv = document.getElementById("console");
     objDiv.scrollTop = objDiv.scrollHeight;
 
-
     function FetchSelectedLog() {
         SelectedFile = document.getElementById("fileSelector").value;
             $.ajax({
@@ -48,9 +47,7 @@
                 error: function(error) {
                     console.log(error);
                 }
-            });
-            
-            
+            }); 
         }
 </script> 
 
