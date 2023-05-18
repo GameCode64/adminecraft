@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsyncController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\Login;
@@ -32,7 +33,7 @@ Route::get('/console', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
     if (!(new LoginController)->IsAdmin())
-        return redirect("/");
+        return redirect("/login");
 
     return view('body/console', [
         "Route" => "console",
@@ -45,7 +46,7 @@ Route::get('/console/log', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
     if (!(new LoginController)->IsAdmin())
-        return redirect("/");
+        return redirect("/login");
 
     return AsyncController::GetLive();
 })->name("console.log");
@@ -54,7 +55,7 @@ Route::get('/filemanager', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
     if (!(new LoginController)->IsAdmin())
-        return redirect("/");
+        return redirect("/login");
 
     return view('body/filemanager', [
         "Route" => "filemanager",
@@ -66,19 +67,31 @@ Route::get('/logs', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
     if (!(new LoginController)->IsAdmin())
-        return redirect("/");
+        return redirect("/login");
 
     return view('body/logs', [
         "Route" => "logs",
         "Session" => Session::all(),
+        "Logs" => (new LogController)->GetLogs(),
     ]);
 });
+
+
+Route::get('/logs/fetch', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/login");
+
+    return (new LogController)->GetLog($Request);
+})->name("log.fetch");
+
 
 Route::get('/users', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
     if (!(new LoginController)->IsAdmin())
-        return redirect("/");
+        return redirect("/login");
 
     return view("body/index-users", [
         "Route" => "users",
