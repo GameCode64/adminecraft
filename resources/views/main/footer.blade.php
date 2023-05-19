@@ -5,7 +5,7 @@
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2023 Copyright: GameCode64
+        © {{date("Y")}} Copyright: GameCode64
     </div>
     <!-- Copyright -->
 </footer>
