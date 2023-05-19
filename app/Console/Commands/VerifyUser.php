@@ -29,12 +29,11 @@ class VerifyUser extends Command
         $Users = User::where([["Authority", "=", "0"]])->get("name")->toArray();
         $this->line(sprintf("There are %s users pending:", count($Users)));
         $Userlist = array();
-        foreach($Users as $User)
-        {
-            $this->line(" - ".$User["name"]);
+        foreach ($Users as $User) {
+            $this->line(" - " . $User["name"]);
             $Userlist[] = $User["name"];
         }
         $SelectedUser = ($this->anticipate("Which account do you want to verify? (Case-Sensitive)", $Userlist));
-        dd(User::where([["name","=","$SelectedUser"]])->update(["Authority" => 1]));
+        dd(User::where([["name", "=", "$SelectedUser"]])->update(["Authority" => 1]));
     }
 }

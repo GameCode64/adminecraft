@@ -126,14 +126,14 @@ Route::get('/settings', function () {
 
 Route::post('/settings', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
-    return redirect("/login");
+        return redirect("/login");
     if (!(new LoginController)->IsAdmin())
-    return redirect("/login");
-    
+        return redirect("/login");
+
     return view('body/settings', [
         "Route" => "settings",
         "Session" => Session::all(),
-        "Message" => (New SettingsController)->SaveSettings($Request),
+        "Message" => (new SettingsController)->SaveSettings($Request),
         "CSettings" => (new SettingsController)->GetControlPanelFunctions(),
         "SSettings" => (new SettingsController)->GetServerPropertiesFunctions(),
     ]);
@@ -159,25 +159,19 @@ Route::get('/logout', function () {
 
 Route::post('/login', function (Request $Request) {
     $Login = (new LoginController)->Login($Request);
-    if($Login["Status"])
-    {
+    if ($Login["Status"]) {
         return $Login["Action"];
-    }
-    else
-    {
+    } else {
         return view("login", ["ErrorMessage" => $Login["Message"], "Status" => $Login["Status"]]);
     }
 });
 
 Route::post('/register', function (Request $Request) {
     $Register = (new LoginController)->Register($Request);
-    if($Register["Status"])
-    {
+    if ($Register["Status"]) {
         return view("register", ["Return" => $Register]);
         //return $Register["Action"];
-    }
-    else
-    {
+    } else {
         return view("register", ["Return" => $Register]);
     }
 });

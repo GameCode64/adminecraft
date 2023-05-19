@@ -51,8 +51,7 @@ class SettingsController extends Controller
                 $FileHeader = collect(explode("\r\n", File::get($File)))->take(2)->toArray();
                 $NewSettings = array();
                 foreach ($request->collect() as $Key => $Req) {
-                    if ($Key != "_token" && $Key != "submit")
-                    {
+                    if ($Key != "_token" && $Key != "submit") {
                         $Key = str_replace("_", ".", $Key);
                         $NewSettings[] = "$Key=$Req";
                     }

@@ -11,29 +11,26 @@ class AsyncController extends Controller
 {
     public static function SendCommand($Command)
     {
-        
-       // File::append(Settings::where([["Key","=", "MCLocation"] ])->first()["Value"]."/logs/latest.log", "[WEB] $Command");
-        
         $RCON = (new RCON("test"))
-        ->Connect();
-        
+            ->SetPass(Settings::where([["Key", "=", "RconPass"]])->first()["Value"])
+            ->SetHost(Settings::where([["Key", "=", "RconServer"]])->first()["Value"])
+            ->SetPort(Settings::where([["Key", "=", "RconPort"]])->first()["Value"])
+            ->connect();
+
         $Resp = $RCON->SendCommand($Command);
         return $Resp;
     }
 
- 
-
-
     public static function GetInitialLog()
     {
-        return htmlentities(file_get_contents(Settings::where([["Key","=", "MCLocation"] ])->first()["Value"]."/logs/latest.log"));
+        return htmlentities(file_get_contents(Settings::where([["Key", "=", "MCLocation"]])->first()["Value"] . "/logs/latest.log"));
     }
 
     public static function GetLive(int $MaxLogSize = 300)
     {
         //$LineCount = 600;
-        $Lines = explode(PHP_EOL, File::get(Settings::where([["Key","=", "MCLocation"] ])->first()["Value"]."/logs/latest.log"));
-        $LogLines = $MaxLogSize == 0 ? $Lines : array_slice($Lines, -(min($MaxLogSize, count($Lines))));
+        $Lines = explode(PHP_EOL, File::get(Settings::where([["Key", "=", "MCLocation"]])->first()["Value"] . "/logs/latest.log"));
+        $LogLines = $MaxLogSize == 0 ? $Lines : array_slice($Lines, - (min($MaxLogSize, count($Lines))));
         return (response()->make(htmlentities(implode(PHP_EOL, $LogLines))));
     }
 }

@@ -40,7 +40,7 @@
                     console.log(result);
                 },
                 error: function(error) {
-                  //  document.getElementById("console-content").innerHTML = error;
+                    //  document.getElementById("console-content").innerHTML = error;
                 }
             });
             CommandBox.value = "";
@@ -51,8 +51,8 @@
 </script>
 
 <script>
-    setInterval(function() {    
-       fetchLogLines();
+    setInterval(function() {
+        fetchLogLines();
     }, 250);
 
     function fetchLogLines() {
@@ -61,8 +61,8 @@
             .then(data => {
                 document.getElementById("console-content").innerHTML = data;
             });
-            var objDiv = document.getElementById("console");
-            objDiv.scrollTop = objDiv.scrollHeight;
+        var objDiv = document.getElementById("console");
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
 </script>
 

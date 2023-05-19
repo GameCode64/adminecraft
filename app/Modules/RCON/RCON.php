@@ -97,7 +97,7 @@ class RCON
         if ($Response['id'] == self::PACKCMD) {
             if ($Response['type'] == self::SERVERRESP) {
                 $this->Resp = $Response['body'];
-               // socket_close($this->Sock);
+                // socket_close($this->Sock);
                 return $this->Resp;
             }
         }

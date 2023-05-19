@@ -30,7 +30,7 @@ class UpmoteUser extends Command
         $this->line(sprintf("There are %s users not admin:", count($Users)));
         $Userlist = array();
         foreach ($Users as $User) {
-            $this->line(" - ".$User["name"]);
+            $this->line(" - " . $User["name"]);
             $Userlist[] = $User["name"];
         }
         $SelectedUser = ($this->anticipate("Which account do you want to elevate? (Case-Sensitive)", $Userlist));

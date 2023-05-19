@@ -17,19 +17,18 @@ class LoginController extends Controller
         if (($request->session()->get("Name")) == null) {
             $CheckUser = User::where([["email", "=", $request["email"]], ["password", "=", hash("sha512", $request["password"])]])->first();
             if ($CheckUser != null) {
-                if ($CheckUser["Authority"] > 0)
-                {
+                if ($CheckUser["Authority"] > 0) {
                     $request->session()->put([
                         "Name" => $CheckUser["name"],
                         "GameName" => $CheckUser["GameName"],
                         "Email" => $CheckUser["email"],
                         "Authority" => $CheckUser["Authority"],
                     ]);
-                    return array("Status"=> true, "Action"=>redirect()->intended());
+                    return array("Status" => true, "Action" => redirect()->intended());
                 }
-                return array("Status"=>false, "Message"=>"Account hasn't been verified yet!");
+                return array("Status" => false, "Message" => "Account hasn't been verified yet!");
             }
-            return array("Status"=>false, "Message"=>"Login credentials are incorrent or not existing!");
+            return array("Status" => false, "Message" => "Login credentials are incorrent or not existing!");
         }
     }
 
@@ -46,13 +45,11 @@ class LoginController extends Controller
 
     public function Register(Request $request)
     {
-        if (isset($request["email"],$request["password"],$request["confpassword"],$request["username"]))
-        {
-            if ($request["password"] === $request["confpassword"])
-            {
+        if (isset($request["email"], $request["password"], $request["confpassword"], $request["username"])) {
+            if ($request["password"] === $request["confpassword"]) {
                 $CheckUser = User::where([["email", "=", $request["email"]]])->orwhere([["name", "=", $request["username"]]])->first();
                 if ($CheckUser != null) {
-                    return array("Items" => [$request["email"],$request["password"],$request["confpassword"],$request["username"]], "Status" => false, "Message" => "Account already exist for this email or username!");
+                    return array("Items" => [$request["email"], $request["password"], $request["confpassword"], $request["username"]], "Status" => false, "Message" => "Account already exist for this email or username!");
                 }
                 User::create([
                     "email" => $request["email"],
@@ -62,42 +59,37 @@ class LoginController extends Controller
                     "Authority" => 0,
                     "registerToken" => Str::random(100),
                 ]);
-                return array( "Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
+                return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
             }
-            return array("Items" => [$request["email"],$request["password"],$request["confpassword"],$request["username"]], "Status" => false, "Message" => "Passwords does not match!");
+            return array("Items" => [$request["email"], $request["password"], $request["confpassword"], $request["username"]], "Status" => false, "Message" => "Passwords does not match!");
         }
-        return array("Items" => [$request["email"],$request["password"],$request["confpassword"],$request["username"]], "Status" => false, "Message" => "You might missing a field!");
+        return array("Items" => [$request["email"], $request["password"], $request["confpassword"], $request["username"]], "Status" => false, "Message" => "You might missing a field!");
     }
 
     public function Verify(Request $request)
     {
-        if (isset($request["username"],$request["verifytoken"]))
-        {
+        if (isset($request["username"], $request["verifytoken"])) {
             $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", ">", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
-            if ($CheckUser != null)
-            {
+            if ($CheckUser != null) {
                 $CheckUser->registerToken = null;
                 $CheckUser->Authority = 1;
                 $CheckUser->email_verified_at = date("Y-m-d H:i:s");
                 $CheckUser->save();
                 Minecraft::WhitelistUser($CheckUser->name);
-                return array("Status"=> true, "Message"=>"Your account has been verified!", "Action"=>redirect("/login"));
+                return array("Status" => true, "Message" => "Your account has been verified!", "Action" => redirect("/login"));
             }
             $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", "<", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
-            if ($CheckUser != null)
-            {
+            if ($CheckUser != null) {
                 //generating new token because the token has been expired
                 $CheckUser->registerToken = Str::random(100);
                 $CheckUser->save();
             }
-
         }
-        return array("Status"=>false, "Message"=>"Login credentials are incorrent or not existing!");
-
+        return array("Status" => false, "Message" => "Login credentials are incorrent or not existing!");
     }
 
     public function IsAdmin()
     {
-        return Session::get("Authority") >= 2 ;
+        return Session::get("Authority") >= 2;
     }
 }
