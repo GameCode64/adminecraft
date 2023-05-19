@@ -26,13 +26,14 @@ class DemoteUser extends Command
      */
     public function handle()
     {
-        $Users = User::all("name")->toArray();
+        $Users = User::where([["Authority", "=", "2"]])->get("name")->toArray();
+        $this->line(sprintf("There are %s users admin:", count($Users)));
         $Userlist = array();
-        foreach($Users as $User)
-        {
+        foreach ($Users as $User) {
+            $this->line(" - ".$User["name"]);
             $Userlist[] = $User["name"];
         }
         $SelectedUser = ($this->anticipate("Which account do you want to revoke from admin rights? (Case-Sensitive)", $Userlist));
-        dd(User::where([["name","=","$SelectedUser"]])->update(["Authority" => 1]));
+        dd(User::where([["name", "=", "$SelectedUser"]])->update(["Authority" => 1]));
     }
 }

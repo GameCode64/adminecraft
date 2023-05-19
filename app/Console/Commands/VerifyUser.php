@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class UpmoteUser extends Command
+class VerifyUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:upmote';
+    protected $signature = 'user:verify';
 
     /**
      * The console command description.
@@ -26,14 +26,15 @@ class UpmoteUser extends Command
      */
     public function handle()
     {
-        $Users = User::where([["Authority", "=", "1"]])->get("name")->toArray();
-        $this->line(sprintf("There are %s users not admin:", count($Users)));
+        $Users = User::where([["Authority", "=", "0"]])->get("name")->toArray();
+        $this->line(sprintf("There are %s users pending:", count($Users)));
         $Userlist = array();
-        foreach ($Users as $User) {
+        foreach($Users as $User)
+        {
             $this->line(" - ".$User["name"]);
             $Userlist[] = $User["name"];
         }
-        $SelectedUser = ($this->anticipate("Which account do you want to elevate? (Case-Sensitive)", $Userlist));
-        dd(User::where([["name", "=", "$SelectedUser"]])->update(["Authority" => 1]));
+        $SelectedUser = ($this->anticipate("Which account do you want to verify? (Case-Sensitive)", $Userlist));
+        dd(User::where([["name","=","$SelectedUser"]])->update(["Authority" => 1]));
     }
 }
