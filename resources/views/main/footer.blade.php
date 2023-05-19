@@ -1,13 +1,15 @@
 
-  <!-- FOOTER -->
-  <footer class="bg-dark text-center text-white fixed-bottom">
+</body>
 
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2023 Copyright: GameCode64
-    </div>
-    <!-- Copyright -->
-  </footer>
+<!-- FOOTER -->
+<footer class="bg-dark text-center text-white fixed-bottom">
+  
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2023 Copyright: GameCode64
+  </div>
+  <!-- Copyright -->
+</footer>
 
   <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -19,7 +21,6 @@
     crossorigin="anonymous"></script>
   <script src="js/main.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-</body>
 
 </html>
 <!-- FOOTER -->

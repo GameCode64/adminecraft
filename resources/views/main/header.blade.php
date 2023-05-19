@@ -89,7 +89,7 @@
 
   </header>
 
-  <div class="container-fluid">
+  <div class="container-fluid pb-5">
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 col-xxl-1 col-12 d-md-block sidebar collapse">
         <div class="position-sticky pt-3">
@@ -152,7 +152,7 @@
             
             @if($Session["Authority"] >=2 )
             <li class="nav-item">
-              <a class="nav-link text-light" href="#">
+              <a class="nav-link @if($Route == "settings") active @else text-light @endif" href="/settings">
                 <span data-feather="settings"></span>
                 Settings
               </a>

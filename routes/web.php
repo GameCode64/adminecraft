@@ -3,6 +3,7 @@
 use App\Http\Controllers\AsyncController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\Login;
 use Illuminate\Support\Facades\Route;
@@ -106,6 +107,35 @@ Route::get('/myaccount', function () {
     return view('body/myaccount', [
         "Route" => "myaccount",
         "Session" => Session::all(),
+    ]);
+});
+
+Route::get('/settings', function () {
+    if (!(new LoginController)->IsLoggedIn())
+        return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+        return redirect("/login");
+
+    return view('body/settings', [
+        "Route" => "settings",
+        "Session" => Session::all(),
+        "CSettings" => (new SettingsController)->GetControlPanelFunctions(),
+        "SSettings" => (new SettingsController)->GetServerPropertiesFunctions(),
+    ]);
+});
+
+Route::post('/settings', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+    return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
+    return redirect("/login");
+    
+    return view('body/settings', [
+        "Route" => "settings",
+        "Session" => Session::all(),
+        "Message" => (New SettingsController)->SaveSettings($Request),
+        "CSettings" => (new SettingsController)->GetControlPanelFunctions(),
+        "SSettings" => (new SettingsController)->GetServerPropertiesFunctions(),
     ]);
 });
 

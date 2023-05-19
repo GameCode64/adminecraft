@@ -1,5 +1,11 @@
 body {
   font-size: .875rem;
+  background-image: url("/assets/img/background.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-clip: content-box;
+  background-size: cover;
+  
 }
 
 .feather {
@@ -18,13 +24,14 @@ body {
   z-index: 100;
   padding: 48px 0 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-  background-color: hsl(212, 18%, 14%);
+  background-color: rgba(29, 35, 42, .6);
 
 }
 
 @media (max-width: 767.98px) {
   .sidebar {
     background-color: hsl(212, 18%, 14%);
+    width: 100%;
   }
 }
 
@@ -72,17 +79,30 @@ body {
   min-width: 156px !important;
 }
 
+.card.bg-dark{
+  background-color: rgba(37, 43, 50, .4) !important;
+}
+
+.settings{
+  background-color: rgba(37, 43, 50, .4) !important;
+  border-bottom: none;
+  border-top: 0.5px solid;
+}
+
 .navbar .navbar-toggler {
   top: .25rem;
   right: 1rem;
 }
 
 .card-header.bg-dark {
-  background-color: hsl(212, 18%, 14%) !important;
+  background-color: rgba(29, 35, 42, .4) !important;
 }
 
 .card-body.bg-dark {
-  background-color: hsl(212, 15%, 17%) !important;
+  background-color: rgba(37, 43, 50, .4) !important;
+}
+.container .container-fluid{
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .navbar .form-control {
@@ -122,4 +142,10 @@ body {
 tr.odd>td{
   background-color: #252b32 !important;
 
+}
+
+.footer{
+  position: sticky;
+  
+  bottom: 0px;
 }
