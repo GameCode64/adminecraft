@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Modules\Minecraft\Minecraft;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -79,6 +80,7 @@ class LoginController extends Controller
                 $CheckUser->Authority = 1;
                 $CheckUser->email_verified_at = date("Y-m-d H:i:s");
                 $CheckUser->save();
+                Minecraft::WhitelistUser($CheckUser->name);
                 return array("Status"=> true, "Message"=>"Your account has been verified!", "Action"=>redirect("/login"));
             }
             $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", "<", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class UpmoteUser extends Command
+class DemoteUser extends Command
 {
     /**
      * The name and signature of the console command.
@@ -32,7 +32,7 @@ class UpmoteUser extends Command
         {
             $Userlist[] = $User["name"];
         }
-        $SelectedUser = ($this->choice("Which account do you want to revoke from admin rights?", $Userlist));
+        $SelectedUser = ($this->anticipate("Which account do you want to revoke from admin rights? (Case-Sensitive)", $Userlist));
         dd(User::where([["name","=","$SelectedUser"]])->update(["Authority" => 1]));
     }
 }

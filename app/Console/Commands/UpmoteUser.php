@@ -32,7 +32,7 @@ class UpmoteUser extends Command
         {
             $Userlist[] = $User["name"];
         }
-        $SelectedUser = ($this->choice("Which account do you want to elevate?", $Userlist));
+        $SelectedUser = ($this->anticipate("Which account do you want to elevate? (Case-Sensitive)", $Userlist));
         dd(User::where([["name","=","$SelectedUser"]])->update(["Authority" => 2]));
     }
 }

@@ -52,7 +52,10 @@ class SettingsController extends Controller
                 $NewSettings = array();
                 foreach ($request->collect() as $Key => $Req) {
                     if ($Key != "_token" && $Key != "submit")
+                    {
+                        $Key = str_replace("_", ".", $Key);
                         $NewSettings[] = "$Key=$Req";
+                    }
                 }
                 $NewSettings = array_merge($FileHeader, $NewSettings);
                 File::put($File, implode("\r\n", $NewSettings), true);
