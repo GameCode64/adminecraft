@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
 use App\Models\User;
 use App\Modules\Minecraft\Minecraft;
 use Illuminate\Http\Request;
@@ -59,7 +60,10 @@ class LoginController extends Controller
                     "Authority" => 0,
                     "registerToken" => Str::random(100),
                 ]);
-                return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
+                if (!Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]) {
+                    return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
+                }
+                return array("Status" => true, "Message" => "Account has been created succesfully, please wait untill a admin verifies your registration.");
             }
             return array("Items" => [$request["email"], $request["password"], $request["confpassword"], $request["username"]], "Status" => false, "Message" => "Passwords does not match!");
         }
@@ -68,21 +72,23 @@ class LoginController extends Controller
 
     public function Verify(Request $request)
     {
-        if (isset($request["username"], $request["verifytoken"])) {
-            $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", ">", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
-            if ($CheckUser != null) {
-                $CheckUser->registerToken = null;
-                $CheckUser->Authority = 1;
-                $CheckUser->email_verified_at = date("Y-m-d H:i:s");
-                $CheckUser->save();
-                Minecraft::WhitelistUser($CheckUser->name);
-                return array("Status" => true, "Message" => "Your account has been verified!", "Action" => redirect("/login"));
-            }
-            $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", "<", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
-            if ($CheckUser != null) {
-                //generating new token because the token has been expired
-                $CheckUser->registerToken = Str::random(100);
-                $CheckUser->save();
+        if (!Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]) {
+            if (isset($request["username"], $request["verifytoken"])) {
+                $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", ">", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
+                if ($CheckUser != null) {
+                    $CheckUser->registerToken = null;
+                    $CheckUser->Authority = 1;
+                    $CheckUser->email_verified_at = date("Y-m-d H:i:s");
+                    $CheckUser->save();
+                    Minecraft::WhitelistUser($CheckUser->name);
+                    return array("Status" => true, "Message" => "Your account has been verified!", "Action" => redirect("/login"));
+                }
+                $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", "<", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
+                if ($CheckUser != null) {
+                    //generating new token because the token has been expired
+                    $CheckUser->registerToken = Str::random(100);
+                    $CheckUser->save();
+                }
             }
         }
         return array("Status" => false, "Message" => "Login credentials are incorrent or not existing!");
