@@ -84,7 +84,7 @@ body {
 }
 
 .settings{
-  background-color: rgba(37, 43, 50, .4) !important;
+  background-color: rgba(37, 43, 50, .0) !important;
   border-bottom: none;
   border-top: 0.5px solid;
 }
