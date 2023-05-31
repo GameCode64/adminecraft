@@ -55,7 +55,8 @@
         <div class="col-12">
             <div class="card bg-dark border-secondary">
                 <div class="card-header  bg-dark text-light h1 text-center">Filemanager</div>
-                <div class="card-body bg-dark text-light" id="FileMgr">
+                <div class="card-body bg-dark text-light" >
+                    <div id="FileMgr"></div>
                     @include('body/snippets/snip-files')
                     <div class="alert alert-outline">
                         To upload your files drop them in the filemanager.<br>
