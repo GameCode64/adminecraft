@@ -33,7 +33,9 @@
                         <option value="css">css</option>
                         <option value="html">HTML</option>
                         <option value="javascript">JavaScript</option>
+                        <option value="java">Java</option>
                         <option value="json">JSON</option>
+                        <option value="markdown">Markdown</option>
                         <option value="properties">properties</option>
                         <option value="python">Python</option>
                         <option value="sh">sh</option>

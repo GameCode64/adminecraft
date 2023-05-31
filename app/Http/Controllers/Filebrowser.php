@@ -187,6 +187,12 @@ class Filebrowser extends Controller
 
             case "js":
                 return "javascript";
+            
+            case "java":
+                return "java";
+            
+            case "class":
+                return "java";
 
             case "html":
                 return "html";
