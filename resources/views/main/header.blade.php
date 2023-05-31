@@ -8,68 +8,19 @@
     <meta name="author" content="Ricky Visser / GameCode64 Engine: Bootstrap">
     <title>ADMINecraft v0.0.1</title>
 
+
+    <link href="../assets/dist/css/css-file-icons.css" rel="stylesheet">
+
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/dist/vendor/ace/css/ace.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        /* Custom styles for light mode */
-        :root[data-bs-theme='light'] {
-            --body-bg-color: #fff;
-            --body-text-color: #212529;
-            --nav-bg-color: #212529;
-            --nav-text-color: #fff;
-            --sidebar-bg-color: #f8f9fa;
-            --sidebar-text-color: #212529;
-            --border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Custom styles for dark mode */
-        :root[data-bs-theme='dark'] {
-            --body-bg-color: #212529;
-            --body-text-color: #fff;
-            --nav-bg-color: #343a40;
-            --nav-text-color: #fff;
-            --sidebar-bg-color: #212529;
-            --sidebar-text-color: #fff;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            background-color: var(--body-bg-color);
-            color: var(--body-text-color);
-        }
-
-        .navbar-dark {
-            background-color: var(--nav-bg-color);
-        }
-
-        .navbar-dark .navbar-brand {
-            color: var(--nav-text-color);
-        }
-
-        .nav-link {
-            color: var(--sidebar-text-color);
-        }
-
-        .bg-dark {
-            background-color: var(--sidebar-bg-color);
-            border-color: var(--border-color);
-        }
     </style>
 
     <link href="css/main.css" rel="stylesheet">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsyncController;
+use App\Http\Controllers\Filebrowser;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SettingsController;
@@ -61,8 +62,74 @@ Route::get('/filemanager', function () {
     return view('body/filemanager', [
         "Route" => "filemanager",
         "Session" => Session::all(),
+        "DirContent" => (new Filebrowser)->index(),
     ]);
 });
+
+Route::put('/filemanager', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->fetch($Request);
+})->name("filebrowser.fetch");
+
+Route::delete('/filemanager/commands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->destroy($Request);
+})->name("filebrowser.delete");
+
+Route::patch('/filemanager/commands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->rename($Request);
+})->name("filebrowser.rename");
+
+Route::post('/filemanager/commands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->duplicate($Request);
+})->name("filebrowser.duplicate");
+
+Route::post('/filemanager/filecommands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->uploadFiles($Request);
+})->name("filebrowser.uploadFiles");
+
+Route::get('/filemanager/editcommands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->showFile($Request);
+})->name("filebrowser.showFile");
+
+Route::get('/filemanager/filecommands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->downloadFile($Request);
+})->name("filebrowser.downloadFile");
+
+Route::patch('/filemanager/editcommands', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    if (!(new LoginController)->IsAdmin())
+        return abort(403);
+    return (new Filebrowser)->saveFile($Request);
+})->name("filebrowser.saveFile");
+
 
 Route::get('/logs', function () {
     if (!(new LoginController)->IsLoggedIn())

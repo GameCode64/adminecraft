@@ -8,6 +8,66 @@ body {
 
 }
 
+body {
+  background-color: var(--body-bg-color);
+  color: var(--body-text-color);
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+  }
+}
+
+/* Custom styles for light mode */
+:root[data-bs-theme='light'] {
+  --body-bg-color: #fff;
+  --body-text-color: #212529;
+  --nav-bg-color: #212529;
+  --nav-text-color: #fff;
+  --sidebar-bg-color: #f8f9fa;
+  --sidebar-text-color: #212529;
+  --border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Custom styles for dark mode */
+:root[data-bs-theme='dark'] {
+  --body-bg-color: #212529;
+  --body-text-color: #fff;
+  --nav-bg-color: #343a40;
+  --nav-text-color: #fff;
+  --sidebar-bg-color: #212529;
+  --sidebar-text-color: #fff;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+.navbar-dark {
+  background-color: var(--nav-bg-color);
+}
+
+.navbar-dark .navbar-brand {
+  color: var(--nav-text-color);
+}
+
+.nav-link {
+  color: var(--sidebar-text-color);
+}
+
+.bg-dark {
+  background-color: var(--sidebar-bg-color);
+  border-color: var(--border-color);
+}
+
 .feather {
   width: 16px;
   height: 16px;
@@ -149,4 +209,71 @@ tr.odd>td {
   position: sticky;
 
   bottom: 0px;
+}
+
+.folder {
+  width: 34px;
+  height: 22px;
+  margin: 0 auto;
+  margin-top: 5px;
+  position: relative;
+  background-color: #708090;
+  border-radius: 0 6px 6px 6px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.59);
+  float: left;
+}
+
+.folder:before {
+  content: '';
+  width: 40%;
+  height: 4px;
+  border-radius: 0 20px 0 0;
+  background-color: #596674;
+  position: absolute;
+  top: -4px;
+  left: 0px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.59);
+
+}
+
+.text-right{
+  text-align: right;
+}
+
+.text-left{
+  text-align: left !important;
+}
+.text-center{
+  text-align: center;
+}
+
+.float-right{
+  float: right;
+}
+
+.dropdown-file-menu{
+  border: #181818 solid 1px;
+  border-radius: 5px;
+  box-shadow: #212529;
+}
+
+.modal-dialog {
+  max-width: 90%;
+  width: 90%;
+  
+}
+
+.modal-content #editor{
+  height: 85vh;
+  max-height: 85vh;
+  padding: 10px;
+}
+
+.float-left{
+  float: left !important;
+}
+
+.modal-footer{
+  display: block !important;
+  justify-content: flex-start !important;
 }
