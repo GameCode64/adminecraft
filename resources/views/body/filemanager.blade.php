@@ -56,8 +56,9 @@
             <div class="card bg-dark border-secondary">
                 <div class="card-header  bg-dark text-light h1 text-center">Filemanager</div>
                 <div class="card-body bg-dark text-light" >
-                    <div id="FileMgr"></div>
+                    <div id="FileMgr">
                     @include('body/snippets/snip-files')
+                </div>
                     <div class="alert alert-outline">
                         To upload your files drop them in the filemanager.<br>
                         Max filesize: {{ ini_get("upload_max_filesize")}}<br>
