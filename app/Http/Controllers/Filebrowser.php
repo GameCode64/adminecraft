@@ -14,9 +14,7 @@ class Filebrowser extends Controller
     private $Disk;
     public function __construct()
     {
-        ini_set("upload_max_filesize", "3G");
-        ini_set("post_max_size", "4G");
-        ini_set("max_file_uploads", "40");
+
         
         $this->Disk = Storage::build([
             'driver' => 'local',
@@ -26,7 +24,7 @@ class Filebrowser extends Controller
 
     public function index()
     {
-        // Session::put("FBP", "/");
+        Session::put("FBP", "/");
         return $this->LS(Session::get("FBP"));
     }
 
@@ -165,7 +163,7 @@ class Filebrowser extends Controller
 
     private function GetAceExt($FileName)
     {
-        switch (pathinfo($FileName, PATHINFO_EXTENSION)) {
+        switch (strtolower(pathinfo($FileName, PATHINFO_EXTENSION))) {
             case "txt":
                 return "text";
 
@@ -198,6 +196,12 @@ class Filebrowser extends Controller
 
             case "css":
                 return "css";
+
+            case "md":
+                return "markdown";
+
+            case "markdown":
+                return "markdown";
 
             default:
                 return "text";

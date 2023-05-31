@@ -1,8 +1,8 @@
-<div class="alert " style="border: 1px solid #505050;">Current path: <div style="display: inline;" id="FilePath">{{ $DirContent['Path'] }}</div> <div class="float-right">
-        <form method="put" action="{{ route('filebrowser.uploadFiles') }}">
+<div class="alert alert-outline">Current path: <div style="display: inline;" id="FilePath">{{ $DirContent['Path'] }}</div> <div class="float-right">
+        {{-- <form method="put" action="{{ route('filebrowser.uploadFiles') }}">
             <input type="file" name="Files[]" id="" />
             <button class="btn btn-primary btn-sm" type="submit">upload</button>
-            </form>
+            </form> --}}
     </div>
 </div>
 <table class="table table-hover table-dark fluid w-100 text-light">
