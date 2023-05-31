@@ -208,6 +208,12 @@ class Filebrowser extends Controller
 
             case "markdown":
                 return "markdown";
+            
+            case "xml":
+                return "xml";
+
+            case "xaml":
+                return "xml";
 
             default:
                 return "text";

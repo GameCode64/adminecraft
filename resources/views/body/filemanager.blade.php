@@ -40,6 +40,7 @@
                         <option value="python">Python</option>
                         <option value="sh">sh</option>
                         <option value="text" selected>text</option>
+                        <option value="xml">XML</option>
                         <option value="yaml">YAML</option>
                     </select>
                 </div>
