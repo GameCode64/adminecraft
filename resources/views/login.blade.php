@@ -9,7 +9,7 @@
   <title>ADMINecraft v0.0.1</title>
 
   <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  {!! htmlScriptTagJsApi() !!}
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;

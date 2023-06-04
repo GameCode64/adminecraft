@@ -281,3 +281,7 @@ tr.odd>td {
 .alert-outline{
   border: 1px solid #505050 !important;
 }
+
+.grecaptcha-badge{
+  bottom: 100px !important;
+}
