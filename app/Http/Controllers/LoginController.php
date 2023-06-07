@@ -15,6 +15,11 @@ class LoginController extends Controller
 {
     public function Login(Request $request) //: RedirectResponse
     {
+        if(!isset($request["email"], $request["password"]) || (empty($request["email"]) && empty($request["password"])))
+        {
+            return array("Status" => false, "Message" => "Login credentials are incorrent or not existing!");
+        }
+
         if (($request->session()->get("Name")) == null) {
             $CheckUser = User::where([["email", "=", $request["email"]], ["password", "=", hash("sha512", $request["password"])]])->first();
             if ($CheckUser != null) {

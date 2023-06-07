@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Ricky Visser / GameCode64 Engine: Bootstrap">
-  <title>ADMINecraft v0.0.1</title>
+  <title>{{$AdditionalInfo["ServerTitle"]}} - ADMINecraft {{$AdditionalInfo["PanelVersion"]}}</title>
 
   <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
   {!! htmlScriptTagJsApi() !!}
@@ -84,7 +84,7 @@
 <body class="d-flex flex-column h-100 bg-dark ">
 
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-12 col-md-3 col-lg-2 col-xxl-1 me-0 px-3" href="/">AD//MIN//ECRAFT</a>
+    <a class="navbar-brand col-12 col-md-3 col-lg-2 col-xxl-1 me-0 px-3" href="/">AD//MIN//ECRAFT<br>{{$AdditionalInfo["ServerTitle"]}}</a>
   </header>
 
   <div class="container">

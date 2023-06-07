@@ -37,10 +37,11 @@
                     Command: CommandBox,
                 },
                 success: function(result) {
+                    alert(result);
                     console.log(result);
                 },
                 error: function(error) {
-                    //  document.getElementById("console-content").innerHTML = error;
+                    alert(error);
                 }
             });
             CommandBox.value = "";
