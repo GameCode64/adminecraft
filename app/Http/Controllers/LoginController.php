@@ -68,7 +68,8 @@ class LoginController extends Controller
                     "Authority" => 0,
                     "registerToken" => $Token,
                 ]);
-                if (!Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]) {
+                //dump(!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]));
+                if (!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"])) {
                     Mail::to($request["email"])->send(new Verify(["Username" => $request["username"], "Token"=> $Token]));
                     return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
                 }
@@ -81,7 +82,7 @@ class LoginController extends Controller
 
     public function Verify(Request $request)
     {
-        if (!Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]) {
+        if (!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"])) {
             if (isset($request["username"], $request["verifytoken"])) {
                 $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", ">", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
                 if ($CheckUser != null) {

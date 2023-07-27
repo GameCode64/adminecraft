@@ -11,7 +11,7 @@ class Minecraft
 
     public static function WhitelistUser($Username)
     {
-        if (Settings::where([["Key", "=", "AutoWhitelist"]])->first()["Value"]) {
+        if (boolval(Settings::where([["Key", "=", "AutoWhitelist"]])->first()["Value"])) {
             try {
                 $RCON = new RCON();
                 $RCON->SetPass(Settings::where([["Key", "=", "RconPass"]])->first()["Value"]);
