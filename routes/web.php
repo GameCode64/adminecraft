@@ -6,7 +6,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AdditionalInfo;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -163,9 +163,10 @@ Route::get('/users', function () {
     if (!(new LoginController)->IsAdmin())
         return redirect("/login");
 
-    return view("body/index-users", [
+    return view("body/listusers", [
         "Route" => "users",
         "Session" => Session::all(),
+        "Users" => User::where([["Authority",">","0"]])->get(),
         "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo(),
     ]);
 });

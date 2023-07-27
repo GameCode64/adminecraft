@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Modules\RCON\RCON;
+use Mail;
+use App\Mail\Verify;
 
 class testRcon extends Command
 {
@@ -26,11 +28,7 @@ class testRcon extends Command
      */
     public function handle()
     {
-        while (true)
-        {
-            $RCON = (new RCON("tesd"))->SetPort(25575)->Connect();
-            $RCON->SendCommand($this->ask("Enter Command"));
-        }
+       Mail::to("devds@outlook.com")->send(new Verify(["Username" => "Tester", "Token"=> "21341"]));
         
     }
 }

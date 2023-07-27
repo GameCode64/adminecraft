@@ -10,6 +10,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Mail;
+use App\Mail\Verify;
 
 class LoginController extends Controller
 {
@@ -57,15 +59,17 @@ class LoginController extends Controller
                 if ($CheckUser != null) {
                     return array("Items" => [$request["email"], $request["password"], $request["confpassword"], $request["username"]], "Status" => false, "Message" => "Account already exist for this email or username!");
                 }
+                $Token = Str::random(100);
                 User::create([
                     "email" => $request["email"],
                     "password" => hash("sha512", $request["password"]),
                     "name" => $request["username"],
                     "GameName" => $request["username"],
                     "Authority" => 0,
-                    "registerToken" => Str::random(100),
+                    "registerToken" => $Token,
                 ]);
                 if (!Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]) {
+                    Mail::to($request["email"])->send(new Verify(["Username" => $request["username"], "Token"=> $Token]));
                     return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
                 }
                 return array("Status" => true, "Message" => "Account has been created succesfully, please wait untill a admin verifies your registration.");
@@ -91,7 +95,9 @@ class LoginController extends Controller
                 $CheckUser = User::where([["name", "=", $request["username"]], ["registerToken", "=", $request["verifytoken"]], ["updated_at", "<", date("Y-m-d H:i:s", strtotime("-4 hours"))]])->first();
                 if ($CheckUser != null) {
                     //generating new token because the token has been expired
-                    $CheckUser->registerToken = Str::random(100);
+                    $NewToken = Str::random(100);
+                    $CheckUser->registerToken = $NewToken;
+                    Mail::to($CheckUser->email)->send(new Verify(["Username" => $request["username"], "Token"=> $NewToken]));
                     $CheckUser->save();
                 }
             }
