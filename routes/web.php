@@ -223,7 +223,11 @@ Route::get('/login', function () {
 
 Route::get('/verifyregistration', function (Request $Request) {
     $Verify = (new LoginController)->Verify($Request);
-    return view("login", ["ErrorMessage" => $Verify["Message"], "Status" => $Verify["Status"]]);
+    return view("login", [
+        "ErrorMessage" => $Verify["Message"],
+        "Status" => $Verify["Status"],
+        "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo(),
+    ]);
 })->name("verify");
 
 Route::get('/register', function () {
