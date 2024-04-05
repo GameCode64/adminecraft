@@ -46,15 +46,27 @@
       --sidebar-text-color: #fff;
       --border-color: rgba(255, 255, 255, 0.1);
     }
-    
-    body {
+    .background{
       background-image: url("assets/img/background.jpg") ;
       background-repeat: no-repeat;
       background-size:auto;
       background-color: var(--body-bg-color);
+      filter: blur(4px) contrast(1.15) brightness(1.2);
+      height: 100vh;
+      width: 100vw;
+      z-index: -1;
+      position: absolute;
+    }
+    
+    body {
+
       color: var(--body-text-color);
     }
     
+    .navbar{
+      z-index: 0 !important;
+    }
+
     .login {
       background: rgba(0,0,0,0.3) !important;
 
@@ -82,7 +94,6 @@
 </head>
 
 <body class="d-flex flex-column h-100 bg-dark ">
-
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-12 col-md-3 col-lg-2 col-xxl-1 me-0 px-3" href="/">AD//MIN//ECRAFT<br>{{$AdditionalInfo["ServerTitle"]}}</a>
   </header>
@@ -106,19 +117,23 @@
                 <input type="password" required id="Password" name="password" class="form-control" />
                 <label class="form-label"  for="Password">Password</label>
               </div>
-              {{-- <div class="row mb-4">
+              @if ($AdditionalInfo["Settings"]["AllowResetPassword"])
+              <div class="row mb-4">
                 <div class="col">
                   <a href="#!">Forgot password?</a>
                 </div>
-              </div> --}}
+              </div>
+              @endif
 
               <!-- Submit button -->
               <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Sign in</button>
 
               <!-- Register buttons -->
-              <div class="text-center">
+              @if ($AdditionalInfo["Settings"]["AllowRegister"])
+               <div class="text-center">
                 <p>Not a member? <a href="/register">Register</a></p>
               </div>
+              @endif
             </form>
           </div>
 
@@ -129,12 +144,15 @@
   </div>
   <!-- BODY -->
 
+  <div class="background"></div>
+
+
   <!-- FOOTER -->
   <footer class="bg-dark text-center text-white fixed-bottom">
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2023 Copyright: GameCode64
+      © {{ date("Y") }} Copyright: GameCode64
     </div>
     <!-- Copyright -->
   </footer>

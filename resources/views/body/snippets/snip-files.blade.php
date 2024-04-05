@@ -1,4 +1,5 @@
-<div class="alert alert-outline">Current path: <div style="display: inline;" id="FilePath">{{ $DirContent['Path'] }}</div> <div class="float-right">
+<div class="alert alert-outline">Current path: <div style="display: inline;" id="FilePath">{{ $DirContent['Path'] }}</div>
+    <div class="float-right">
         {{-- <form method="put" action="{{ route('filebrowser.uploadFiles') }}">
             <input type="file" name="Files[]" id="" />
             <button class="btn btn-primary btn-sm" type="submit">upload</button>
@@ -57,43 +58,80 @@
     @endforeach
     @foreach ($DirContent['Files'] as $File)
         @foreach ($File as $FileName => $FileInfo)
-            <tr oncontextmenu="return false;" ondblclick="OpenFile('{{ $FileName }}')">
-                <td>
-                    <div class="fi fi-{{ $FileInfo['Extension'] }} fi-size-xs" style="float: left;">
-                        <div class="fi-content">{{ $FileInfo['ExtShort'] }}</div>
-                    </div>
-                </td>
-                <td>
-                    {{ $FileName }}
-                </td>
-                <td>
-                    {{ $FileInfo['ModifyDate'] }}
-                </td>
-                <td>
-                    {{ $FileInfo['CreateDate'] }}
-                </td>
-                <td class="text-right">
-                    {{ $FileInfo['Size'] }}
-                </td>
-                <td>
-
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary btn-sm float-right" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            ...
-                        </button>
-                        <div class="dropdown-menu dropdown-file-menu bg-dark" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-light border-bottom-dark" onclick="DownloadFile('{{ $FileName }}')" href="#"><i class="fas fa-download"></i> Download</a>
-                            <a class="dropdown-item text-light border-bottom-dark" onclick="OpenFile('{{ $FileName }}')" href="#"><i class="fas fa-pencil"></i> Edit</a>
-                            <a class="dropdown-item text-light border-bottom-dark" onclick="DuplicateFile('{{ $FileName }}')" href="#"><i class="fas fa-copy"></i> Duplicate</a>
-                            <a class="dropdown-item text-light border-bottom-dark" onclick="RenameFile('{{ $FileName }}')" href="#"><i class="fas fa-edit"></i> Rename</a>
-                            <a class="dropdown-item text-danger" onclick="DeleteFile('{{ $FileName }}')" href="#"><i class="fas fa-trash"></i> Delete File</a>
+            @if ($Session['Authority'] < 2 && strtolower($FileName) == 'server.properties')
+                <tr oncontextmenu="return false;">
+                    <td>
+                        <div class="fi fi-{{ $FileInfo['Extension'] }} fi-size-xs" style="float: left;">
+                            <div class="fi-content">{{ $FileInfo['ExtShort'] }}</div>
                         </div>
-                    </div>
-                </td>
+                    </td>
+                    <td>
+                        {{ $FileName }}<br>
+                        <div style="display: inline; color:#ff0000;">Can't be eddited by you!</div>
+                    </td>
+                    <td>
+                        {{ $FileInfo['ModifyDate'] }}
+                    </td>
+                    <td>
+                        {{ $FileInfo['CreateDate'] }}
+                    </td>
+                    <td class="text-right">
+                        {{ $FileInfo['Size'] }}
+                    </td>
+                    <td>
 
-            </tr>
+
+                    </td>
+
+                </tr>
+            @else
+                <tr oncontextmenu="return false;" ondblclick="OpenFile('{{ $FileName }}')">
+                    <td>
+                        <div class="fi fi-{{ $FileInfo['Extension'] }} fi-size-xs" style="float: left;">
+                            <div class="fi-content">{{ $FileInfo['ExtShort'] }}</div>
+                        </div>
+                    </td>
+                    <td>
+                        {{ $FileName }}
+                    </td>
+                    <td>
+                        {{ $FileInfo['ModifyDate'] }}
+                    </td>
+                    <td>
+                        {{ $FileInfo['CreateDate'] }}
+                    </td>
+                    <td class="text-right">
+                        {{ $FileInfo['Size'] }}
+                    </td>
+                    <td>
+
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary btn-sm float-right" type="button"
+                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                ...
+                            </button>
+                            <div class="dropdown-menu dropdown-file-menu bg-dark" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item text-light border-bottom-dark"
+                                    onclick="DownloadFile('{{ $FileName }}')" href="#"><i
+                                        class="fas fa-download"></i> Download</a>
+                                <a class="dropdown-item text-light border-bottom-dark"
+                                    onclick="OpenFile('{{ $FileName }}')" href="#"><i
+                                        class="fas fa-pencil"></i> Edit</a>
+                                <a class="dropdown-item text-light border-bottom-dark"
+                                    onclick="DuplicateFile('{{ $FileName }}')" href="#"><i
+                                        class="fas fa-copy"></i> Duplicate</a>
+                                <a class="dropdown-item text-light border-bottom-dark"
+                                    onclick="RenameFile('{{ $FileName }}')" href="#"><i
+                                        class="fas fa-edit"></i> Rename</a>
+                                <a class="dropdown-item text-danger" onclick="DeleteFile('{{ $FileName }}')"
+                                    href="#"><i class="fas fa-trash"></i> Delete File</a>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            @endif
         @endforeach
     @endforeach
 

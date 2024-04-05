@@ -16,6 +16,7 @@ class SettingsController extends Controller
 
     public function GetServerPropertiesFunctions()
     {
+       
         try {
             return array("Status" => true, "Contents" => collect(explode(PHP_EOL, File::get(Settings::where([["Key", "=", "MCLocation"]])->first()["Value"] . "/server.properties")))->transform(function ($Line) {
                 if (str_starts_with($Line, "#") || $Line === "") {

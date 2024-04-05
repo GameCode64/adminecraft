@@ -1,6 +1,6 @@
 body {
   font-size: .875rem;
-  background-image: url("/assets/img/background.jpg");
+  /* background-image: url("/assets/img/background.jpg"); */
   background-repeat: no-repeat;
   background-position: top;
   background-clip: content-box;
@@ -49,7 +49,17 @@ body {
   --border-color: rgba(255, 255, 255, 0.1);
 }
 
-
+.background{
+  background-image: url("/assets/img/background.jpg") ;
+  background-repeat: no-repeat;
+  background-size:auto;
+  background-color: var(--body-bg-color);
+  filter: blur(4px) contrast(1.15) brightness(1.2);
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+  position: absolute;
+}
 
 .navbar-dark {
   background-color: var(--nav-bg-color);

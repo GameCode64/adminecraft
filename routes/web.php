@@ -36,8 +36,6 @@ Route::get('/', function () {
 Route::get('/console', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
-        return redirect("/login");
 
     return view('body/console', [
         "Route" => "console",
@@ -50,16 +48,12 @@ Route::get('/console', function () {
 Route::get('/console/log', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
-        return redirect("/login");
 
     return AsyncController::GetLive();
 })->name("console.log");
 
 Route::get('/filemanager', function () {
     if (!(new LoginController)->IsLoggedIn())
-        return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
         return redirect("/login");
 
     return view('body/filemanager', [
@@ -73,15 +67,11 @@ Route::get('/filemanager', function () {
 Route::put('/filemanager', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
         return abort(403);
-    if (!(new LoginController)->IsAdmin())
-        return abort(403);
     return (new Filebrowser)->fetch($Request);
 })->name("filebrowser.fetch");
 
 Route::delete('/filemanager/commands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
-        return abort(403);
-    if (!(new LoginController)->IsAdmin())
         return abort(403);
     return (new Filebrowser)->destroy($Request);
 })->name("filebrowser.delete");
@@ -89,15 +79,11 @@ Route::delete('/filemanager/commands', function (Request $Request) {
 Route::patch('/filemanager/commands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
         return abort(403);
-    if (!(new LoginController)->IsAdmin())
-        return abort(403);
     return (new Filebrowser)->rename($Request);
 })->name("filebrowser.rename");
 
 Route::post('/filemanager/commands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
-        return abort(403);
-    if (!(new LoginController)->IsAdmin())
         return abort(403);
     return (new Filebrowser)->duplicate($Request);
 })->name("filebrowser.duplicate");
@@ -105,15 +91,11 @@ Route::post('/filemanager/commands', function (Request $Request) {
 Route::post('/filemanager/filecommands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
         return abort(403);
-    if (!(new LoginController)->IsAdmin())
-        return abort(403);
     return (new Filebrowser)->uploadFiles($Request);
 })->name("filebrowser.uploadFiles");
 
 Route::get('/filemanager/editcommands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
-        return abort(403);
-    if (!(new LoginController)->IsAdmin())
         return abort(403);
     return (new Filebrowser)->showFile($Request);
 })->name("filebrowser.showFile");
@@ -121,15 +103,11 @@ Route::get('/filemanager/editcommands', function (Request $Request) {
 Route::get('/filemanager/filecommands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
         return abort(403);
-    if (!(new LoginController)->IsAdmin())
-        return abort(403);
     return (new Filebrowser)->downloadFile($Request);
 })->name("filebrowser.downloadFile");
 
 Route::patch('/filemanager/editcommands', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
-        return abort(403);
-    if (!(new LoginController)->IsAdmin())
         return abort(403);
     return (new Filebrowser)->saveFile($Request);
 })->name("filebrowser.saveFile");
@@ -137,8 +115,7 @@ Route::patch('/filemanager/editcommands', function (Request $Request) {
 Route::get('/logs', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
-        return redirect("/login");
+
 
     return view('body/logs', [
         "Route" => "logs",
@@ -151,11 +128,12 @@ Route::get('/logs', function () {
 Route::get('/logs/fetch', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
-        return redirect("/login");
+
 
     return (new LogController)->GetLog($Request);
 })->name("log.fetch");
+
+
 
 Route::get('/users', function () {
     if (!(new LoginController)->IsLoggedIn())
@@ -166,13 +144,15 @@ Route::get('/users', function () {
     return view("body/listusers", [
         "Route" => "users",
         "Session" => Session::all(),
-        "Users" => User::where([["Authority",">","0"]])->get(),
+        "Users" => User::where([["Authority", ">", "0"]])->get(),
         "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo(),
     ]);
 });
 
 Route::get('/myaccount', function () {
     if (!(new LoginController)->IsLoggedIn())
+        return redirect("/login");
+    if (!(new LoginController)->IsAdmin())
         return redirect("/login");
 
     return view('body/myaccount', [
@@ -182,11 +162,13 @@ Route::get('/myaccount', function () {
     ]);
 });
 
+
+
+
 Route::get('/settings', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
-        return redirect("/login");
+
 
     return view('body/settings', [
         "Route" => "settings",
@@ -199,8 +181,6 @@ Route::get('/settings', function () {
 
 Route::post('/settings', function (Request $Request) {
     if (!(new LoginController)->IsLoggedIn())
-        return redirect("/login");
-    if (!(new LoginController)->IsAdmin())
         return redirect("/login");
 
     return view('body/settings', [
@@ -249,7 +229,7 @@ Route::post('/login', function (Request $Request) {
         return $Login["Action"];
     } else {
         return view("login", [
-            "ErrorMessage" => $Login["Message"], 
+            "ErrorMessage" => $Login["Message"],
             "Status" => $Login["Status"],
             "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo()
         ]);

@@ -18,6 +18,14 @@ return new class extends Migration
                     "Key"=>"ServerTitle",
                     "Value"=>"Minecraft"
                 ],
+                [
+                    "Key"=>"AllowResetPassword",
+                    "Value"=>"false"
+                ],
+                [
+                    "Key"=>"AllowRegister",
+                    "Value"=>"false"
+                ],
             ],
             ["id"]
         );

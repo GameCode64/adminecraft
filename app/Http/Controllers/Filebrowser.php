@@ -14,8 +14,6 @@ class Filebrowser extends Controller
     private $Disk;
     public function __construct()
     {
-
-        
         $this->Disk = Storage::build([
             'driver' => 'local',
             'root' => Settings::where([["Key", "=", "MCLocation"]])->first()["Value"],
@@ -32,7 +30,8 @@ class Filebrowser extends Controller
     {
         $this->CHDIR($Request["cd"]);
         return view("body/snippets/snip-files", [
-            "DirContent" => $this->LS(Session::get("FBP"))
+            "DirContent" => $this->LS(Session::get("FBP")),
+            "Session" => Session::all()
         ]);
     }
 
@@ -56,27 +55,21 @@ class Filebrowser extends Controller
         return $this->Disk->download(Session::get("FBP") . "/" . $Request["FileName"],$Request["FileName"] );
     }
 
-
-    public function createFile()
-    {
-
-    }
-
     public function uploadFiles(Request $Request)
     {
-        //dd($Request);
-        /*$Request->validate([
-            'files.*' => 'required|file', 
-        ]);*/
         $Path = !(str_ends_with($Request->input("Path"), "/")) ? $Request->input("Path") : $Request->input("Path") . "/";
         foreach($Request->file("files") as $File)
         {
             $FileName = $File->getClientOriginalName();
-            $TempFileName = $this->Disk->putFile($Path, $File);
-            $this->Disk->move($Path.$TempFileName, $Path.$FileName);
+            if( strtolower($FileName) != "server.properties" ||  $_SESSION['Authority'] >= 2)
+            {
+                $TempFileName = $this->Disk->putFile($Path, $File);
+                $this->Disk->move($Path.$TempFileName, $Path.$FileName);
+            }
         }
         return view("body/snippets/snip-files", [
-            "DirContent" => $this->LS(Session::get("FBP"))
+            "DirContent" => $this->LS(Session::get("FBP")),
+            "Session" => Session::all()
         ]);
     }
 
@@ -103,10 +96,15 @@ class Filebrowser extends Controller
     public function destroy(Request $Request)
     {
         if ($this->Disk->exists(Session::get("FBP") . "/" . $Request["file"])) {
-            $this->Disk->delete(Session::get("FBP") . "/" . $Request["file"]);
-            return view("body/snippets/snip-files", [
-                "DirContent" => $this->LS(Session::get("FBP"))
-            ]);
+            if( strtolower($Request["file"]) != "server.properties" ||  $_SESSION['Authority'] >= 2)
+            {
+
+                $this->Disk->delete(Session::get("FBP") . "/" . $Request["file"]);
+                return view("body/snippets/snip-files", [
+                    "DirContent" => $this->LS(Session::get("FBP")),
+                    "Session" => Session::all()
+                ]);
+            }
         }
         return "Operation cannot been executed!\nFile doesn't exist!";
     }
@@ -117,10 +115,14 @@ class Filebrowser extends Controller
             return "Operation cannot been executed!\Destination file already exist!";
         }
         if ($this->Disk->exists(Session::get("FBP") . "/" . $Request["OldName"])) {
-            $this->Disk->move(Session::get("FBP") . "/" . $Request["OldName"], Session::get("FBP") . "/" . $Request["NewName"]);
-            return view("body/snippets/snip-files", [
-                "DirContent" => $this->LS(Session::get("FBP"))
-            ]);
+            if( strtolower($Request["file"]) != "server.properties" ||  $_SESSION['Authority'] >= 2)
+            {
+                $this->Disk->move(Session::get("FBP") . "/" . $Request["OldName"], Session::get("FBP") . "/" . $Request["NewName"]);
+                return view("body/snippets/snip-files", [
+                    "DirContent" => $this->LS(Session::get("FBP")),
+                    "Session" => Session::all()
+                ]);
+            }
         }
         return "Operation cannot been executed!\n Source file doesn't exist!";
     }
@@ -133,7 +135,8 @@ class Filebrowser extends Controller
         if ($this->Disk->exists(Session::get("FBP") . "/" . $Request["file"])) {
             $this->Disk->copy(Session::get("FBP") . "/" . $Request["OldName"], Session::get("FBP") . "/" . $Request["NewName"]);
             return view("body/snippets/snip-files", [
-                "DirContent" => $this->LS(Session::get("FBP"))
+                "DirContent" => $this->LS(Session::get("FBP")),
+                "Session" => Session::all()
             ]);
         }
         return "Operation cannot been executed!\n Source file doesn't exist!";

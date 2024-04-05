@@ -62,7 +62,7 @@
                             </a>
                         </li>
 
-                        @if ($Session['Authority'] >= 2)
+                       
                             <li class="nav-item">
                                 <a class="nav-link @if ($Route == 'console') active @else text-light @endif"
                                     href="/console">
@@ -86,7 +86,7 @@
                                     Logs
                                 </a>
                             </li>
-
+                        @if ($Session['Authority'] >= 2)
                             <li class="nav-item">
                                 <a class="nav-link  @if ($Route == 'users') active @else text-light @endif"
                                     href="/users">
@@ -94,7 +94,7 @@
                                     Users
                                 </a>
                             </li>
-                        @endif
+{{--                       
 
                         <li class="nav-item">
                             <a class="nav-link  @if ($Route == 'myaccount') active @else text-light @endif"
@@ -102,8 +102,8 @@
                                 <span data-feather="user"></span>
                                 My account
                             </a>
-                        </li>
-
+                        </li> --}}
+                        @endif
                         <li class="nav-item">
                             <hr class=" text-light" />
                         </li>

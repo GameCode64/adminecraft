@@ -11,8 +11,12 @@ class AdditionalInfo extends Controller
     {
         
         return array(
+            "PanelVersion" => "0.9.1",
             "ServerTitle" => Settings::where([["Key", "=", "ServerTitle"]])->first()["Value"],
-            "PanelVersion" => "0.9.1"
+            "Settings" => [
+                "AllowRegister" => Settings::where([["Key", "=", "AllowRegister"]])->first()["Value"],
+                "AllowResetPassword" => Settings::where([["Key", "=", "AllowResetPassword"]])->first()["Value"],
+            ]
         );
     }
 }

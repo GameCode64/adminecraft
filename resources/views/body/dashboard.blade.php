@@ -3,7 +3,7 @@
      <!-- BODY -->
      <main class="col-md-9 ms-sm-auto col-lg-10 col-xxl-11 px-md-4 p-4">
 
-        <!-- Alarm Items -->
+        {{-- <!-- Alarm Items -->
         <div class="row g-3 pb-4">
           <div class="col-lg-3 col-sm-6 col-12">
             <div class="card bg-dark text-light border-secondary">
@@ -42,12 +42,12 @@
           </div>
         </div>
         <!-- Alarm Items -->
-        
+         --}}
         <div class="row g-3">
           <div class="col-12">
             <div class="card bg-dark border-secondary">
               <div class="card-header  bg-dark text-light h1 text-center">Dashboard</div>
-              <div class="card-body bg-dark text-light">Testers must test stuff</div>
+              <div class="card-body bg-dark text-light">Nothing to say...</div>
             </div>
           </div>
         </div>

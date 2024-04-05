@@ -18,7 +18,7 @@ class AsyncController extends Controller
             ->connect();
 
         $Resp = $RCON->SendCommand($Command);
-        return $Resp;
+        return preg_replace("/(\$|§)[a-zA-Z0-9]/", "", $Resp);
     }
 
     public static function GetInitialLog()

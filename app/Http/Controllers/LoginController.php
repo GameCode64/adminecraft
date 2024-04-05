@@ -70,7 +70,7 @@ class LoginController extends Controller
                 ]);
                 //dump(!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]));
                 if (!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"])) {
-                    Mail::to($request["email"])->send(new Verify(["Username" => $request["username"], "Token"=> $Token]));
+                   // Mail::to($request["email"])->send(new Verify(["Username" => $request["username"], "Token"=> $Token]));
                     return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
                 }
                 return array("Status" => true, "Message" => "Account has been created succesfully, please wait untill a admin verifies your registration.");
@@ -98,7 +98,7 @@ class LoginController extends Controller
                     //generating new token because the token has been expired
                     $NewToken = Str::random(100);
                     $CheckUser->registerToken = $NewToken;
-                    Mail::to($CheckUser->email)->send(new Verify(["Username" => $request["username"], "Token"=> $NewToken]));
+                   // Mail::to($CheckUser->email)->send(new Verify(["Username" => $request["username"], "Token"=> $NewToken]));
                     $CheckUser->save();
                 }
             }
