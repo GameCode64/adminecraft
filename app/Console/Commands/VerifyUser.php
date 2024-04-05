@@ -19,7 +19,7 @@ class VerifyUser extends Command
      *
      * @var string
      */
-    protected $description = 'Elevates a user to admin';
+    protected $description = 'Verifies a user';
 
     /**
      * Execute the console command.

@@ -38,7 +38,7 @@ return new class extends Migration
                     "Key"=>"MCLocation",
                     "Value"=>"~/minecraft"
                 ],
-                [
+                /*[
                     "Key"=>"SFTP",
                     "Value"=>"false"
                 ],
@@ -61,7 +61,7 @@ return new class extends Migration
                 [
                     "Key"=>"SFTPPublicKey",
                     "Value"=>"~/ssh.pub"
-                ]
+                ]*/
             ],
             ["id"]
         );
