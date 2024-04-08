@@ -9,7 +9,6 @@
   <title>{{$AdditionalInfo["ServerTitle"]}} - ADMINecraft {{$AdditionalInfo["PanelVersion"]}}</title>
 
   <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-  {!! htmlScriptTagJsApi() !!}
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;

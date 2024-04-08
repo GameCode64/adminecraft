@@ -9,7 +9,8 @@
   <title>{{$AdditionalInfo["ServerTitle"]}} - ADMINecraft {{$AdditionalInfo["PanelVersion"]}}</title>
 
   <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-  {!! htmlScriptTagJsApi() !!}
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;
@@ -107,7 +108,7 @@
             @isset($ErrorMessage)
             <div class="alert @if($Status) alert-success @else alert-danger @endif">{{$ErrorMessage}}</div>
             @endif
-            <form method="POST" action="/login" class="pt-3">
+            <form method="POST" action="/login" id="LoginForm" class="pt-3">
               @csrf
               <div class="form-outline mb-4">
                 <input type="email" required name="email" id="Email" class="form-control" />
@@ -126,7 +127,10 @@
               @endif
 
               <!-- Submit button -->
-              <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Sign in</button>
+              <button type="submit" class="w-100 btn btn-primary btn-block mb-4 g-recaptcha" 
+              data-sitekey="{{ $_ENV["RECAPTCHA_SITE_KEY"] }}" 
+              data-callback='onSubmit' 
+              data-action='submit'>Sign in</button>
 
               <!-- Register buttons -->
               @if ($AdditionalInfo["Settings"]["AllowRegister"] == "true" )
@@ -158,7 +162,12 @@
   </footer>
 
   <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script>
+    function onSubmit(token) {
+      document.getElementById("LoginForm").submit();
+    }
+  </script>
+ 
   <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
     integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
     crossorigin="anonymous"></script>

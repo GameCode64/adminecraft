@@ -12,14 +12,28 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Mail;
 use App\Mail\Verify;
+use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
     public function Login(Request $request) //: RedirectResponse
     {
-        if(!isset($request["email"], $request["password"]) || (empty($request["email"]) && empty($request["password"])))
-        {
+        if (!isset($request["email"], $request["password"]) || (empty($request["email"]) && empty($request["password"]))) {
             return array("Status" => false, "Message" => "Login credentials are incorrent or not existing!");
+        }
+        if (!isset($request["g-recaptcha-response"]) || empty($request["g-recaptcha-response"])) {
+            return array("Status" => false, "Message" => "Recaptcha validation token is missing!");
+        }
+
+        $RecaptchaResponse = Http::asForm()->withoutVerifying()->post("https://www.google.com/recaptcha/api/siteverify", [
+            "secret" => $_ENV["RECAPTCHA_SECRET_KEY"],
+            "response" => $request["g-recaptcha-response"],
+            "remoteip" => $_SERVER["REMOTE_ADDR"]
+        ]);
+        $RecaptchaResponse = $RecaptchaResponse->object();
+
+        if (!$RecaptchaResponse->success || $RecaptchaResponse->score <= 0.5) {
+            return array("Status" => false, "Message" => "Recaptcha validation failed, please try again!");
         }
 
         if (($request->session()->get("Name")) == null) {
@@ -70,7 +84,7 @@ class LoginController extends Controller
                 ]);
                 //dump(!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"]));
                 if (!boolval(Settings::where([["Key", "=", "ManualVerify"]])->first()["Value"])) {
-                   // Mail::to($request["email"])->send(new Verify(["Username" => $request["username"], "Token"=> $Token]));
+                    // Mail::to($request["email"])->send(new Verify(["Username" => $request["username"], "Token"=> $Token]));
                     return array("Status" => true, "Message" => "Account has been created succesfully, please check your e-mail for the validation.");
                 }
                 return array("Status" => true, "Message" => "Account has been created succesfully, please wait untill a admin verifies your registration.");
@@ -98,7 +112,7 @@ class LoginController extends Controller
                     //generating new token because the token has been expired
                     $NewToken = Str::random(100);
                     $CheckUser->registerToken = $NewToken;
-                   // Mail::to($CheckUser->email)->send(new Verify(["Username" => $request["username"], "Token"=> $NewToken]));
+                    // Mail::to($CheckUser->email)->send(new Verify(["Username" => $request["username"], "Token"=> $NewToken]));
                     $CheckUser->save();
                 }
             }
