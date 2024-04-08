@@ -117,7 +117,7 @@
                 <input type="password" required id="Password" name="password" class="form-control" />
                 <label class="form-label"  for="Password">Password</label>
               </div>
-              @if ($AdditionalInfo["Settings"]["AllowResetPassword"])
+              @if ($AdditionalInfo["Settings"]["AllowResetPassword"] == "true" )
               <div class="row mb-4">
                 <div class="col">
                   <a href="#!">Forgot password?</a>
@@ -129,7 +129,7 @@
               <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Sign in</button>
 
               <!-- Register buttons -->
-              @if ($AdditionalInfo["Settings"]["AllowRegister"])
+              @if ($AdditionalInfo["Settings"]["AllowRegister"] == "true" )
                <div class="text-center">
                 <p>Not a member? <a href="/register">Register</a></p>
               </div>
