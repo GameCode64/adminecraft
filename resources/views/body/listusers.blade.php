@@ -23,6 +23,10 @@
                         <label class="form-label" for="GameName">Minecraft Username</label>
                         <input type="text" name="GameName" id="GameName" class="form-control"  >
                     </div>
+                    <div class="form-outline mb-4" id="PasswordField">
+                        <label class="form-label" for="Password">Password</label>
+                        <input type="password" name="Password" id="Password" class="form-control"  >
+                    </div>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="UserStatus">Status</label>
                         <select name="UserStatus" id="UserStatus" class="form-select">
@@ -33,10 +37,7 @@
                             @endif
                         </select>
                     </div>
-
                 </form>
-
-
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success" onclick="AddOrCreateUser()" id="UserSaveButton"></button>
@@ -132,8 +133,10 @@
             $("#UserStatus").val(result.Authority).change();
             $("#UserSaveButton").html(`<i class="fa fa-save"></i> Save User`);
             $("#ModalTitleUsername").text(`Editting "${result.name}"`);
-            $("#UserEditModal").modal("show");
             $("#UserID").val(id);
+            $("#PasswordField").css("display", "none");
+            $("#PasswordField").val("");
+            $("#UserEditModal").modal("show");
         });
     }
      
@@ -146,18 +149,20 @@
         $("#UserStatus").val(0).change();
         $("#UserSaveButton").html(`<i class="fa fa-plus"></i> Create User`);
         $("#ModalTitleUsername").text(`Add new user`);
-        $("#UserEditModal").modal("show");
         $("#UserID").val(0);
+        $("#PasswordField").css("display", "block");
+        $("#PasswordField").val("");
+        $("#UserEditModal").modal("show");
     }
 
     function AddOrCreateUser()
     {
-        $("#UserSaveButton").prop("disabled", true);
+       /* $("#UserSaveButton").prop("disabled", true);
         $("#UserCloseButton").prop("disabled", true);
         $("#Username").prop("disabled", true);
         $("#Email").prop("disabled", true);
         $("#GameName").prop("disabled", true);
-        $("#UserStatus").prop("disabled", true);
+        $("#UserStatus").prop("disabled", true);*/
             $.post("{{ route('User.AddOrCreate') }}", {
                 data: {
                     UserID: $("#UserID").val(),
@@ -165,6 +170,7 @@
                     email: $("#Email").val(),
                     GameName: $("#GameName").val(),
                     Authority:  $("#UserStatus").val(),
+                    Password: $("#Password").val()
                 }
             }).done(function(result){
                 $("#AlertMessage").removeClass("alert-success alert-danger").addClass("alert-success");
