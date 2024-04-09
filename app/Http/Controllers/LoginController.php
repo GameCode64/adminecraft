@@ -21,20 +21,10 @@ class LoginController extends Controller
         if (!isset($request["email"], $request["password"]) || (empty($request["email"]) && empty($request["password"]))) {
             return array("Status" => false, "Message" => "Login credentials are incorrent or not existing!");
         }
-        if (!isset($request["g-recaptcha-response"]) || empty($request["g-recaptcha-response"])) {
-            return array("Status" => false, "Message" => "Recaptcha validation token is missing!");
-        }
 
-        $RecaptchaResponse = Http::asForm()->withoutVerifying()->post("https://www.google.com/recaptcha/api/siteverify", [
-            "secret" => $_ENV["RECAPTCHA_SECRET_KEY"],
-            "response" => $request["g-recaptcha-response"],
-            "remoteip" => $_SERVER["REMOTE_ADDR"]
-        ]);
-        $RecaptchaResponse = $RecaptchaResponse->object();
-
-        if (!$RecaptchaResponse->success || $RecaptchaResponse->score <= 0.5) {
-            return array("Status" => false, "Message" => "Recaptcha validation failed, please try again!");
-        }
+        $Recaptcha = $this->ValidateRecaptcha($request);
+        if (!$Recaptcha["Status"])
+            return $Recaptcha;
 
         if (($request->session()->get("Name")) == null) {
             $CheckUser = User::where([["email", "=", $request["email"]], ["password", "=", hash("sha512", $request["password"])]])->first();
@@ -60,6 +50,25 @@ class LoginController extends Controller
         return !Session::get("Name") == null;
     }
 
+    private function ValidateRecaptcha(Request $request)
+    {
+        if (!isset($request["g-recaptcha-response"]) || empty($request["g-recaptcha-response"])) {
+            return array("Status" => false, "Message" => "Recaptcha validation token is missing!");
+        }
+
+        $RecaptchaResponse = Http::asForm()->withoutVerifying()->post("https://www.google.com/recaptcha/api/siteverify", [
+            "secret" => $_ENV["RECAPTCHA_SECRET_KEY"],
+            "response" => $request["g-recaptcha-response"],
+            "remoteip" => $_SERVER["REMOTE_ADDR"]
+        ]);
+        $RecaptchaResponse = $RecaptchaResponse->object();
+
+        if (!$RecaptchaResponse->success || $RecaptchaResponse->score <= 0.5) {
+            return array("Status" => false, "Message" => "Recaptcha validation failed, please try again!");
+        }
+        return array("Status" => true);
+    }
+
     public function Logout()
     {
         Session::flush();
@@ -68,6 +77,11 @@ class LoginController extends Controller
     public function Register(Request $request)
     {
         if (isset($request["email"], $request["password"], $request["confpassword"], $request["username"])) {
+
+            $Recaptcha = $this->ValidateRecaptcha($request);
+            if (!$Recaptcha["Status"])
+                return $Recaptcha;
+
             if ($request["password"] === $request["confpassword"]) {
                 $CheckUser = User::where([["email", "=", $request["email"]]])->orwhere([["name", "=", $request["username"]]])->first();
                 if ($CheckUser != null) {

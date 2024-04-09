@@ -95,7 +95,7 @@
             @isset($Return)
             <div class="alert @if($Return["Status"]) alert-success @else alert-danger @endif">{{$Return["Message"]}}</div>
             @endif
-            <form method="POST" class="pt-3">
+            <form method="POST" id="RegisterForm" class="pt-3">
               @csrf
               <div class="text-center">
                 <p>Already have a account? <a href="/login">Login</a></p>
@@ -116,17 +116,12 @@
                 <input type="text" @isset($Return["username"]) @if($Return["Status"]) value={{$Return["username"]}}@endif @endif name="username" id="username" class="form-control" required/>
                 <label class="form-label" for="username">Minecraft Username</label>
               </div>
-              
-              {{-- <div class="row mb-4">
-                <div class="col">
-                  <a href="#!">Forgot password?</a>
-                </div>
-              </div> --}}
 
               <!-- Submit button -->
-              <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Sign up</button>
-
-
+              <button type="submit" class="w-100 btn btn-primary btn-block mb-4 g-recaptcha" 
+              data-sitekey="{{ $_ENV["RECAPTCHA_SITE_KEY"] }}" 
+              data-callback='onSubmit' 
+              data-action='submit'>Sign up</button>
 
             </form>
           </div>
@@ -146,11 +141,15 @@
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2023 Copyright: GameCode64
+      © {{ date("Y") }} Copyright: GameCode64
     </div>
     <!-- Copyright -->
   </footer>
-
+  <script>
+    function onSubmit(token) {
+      document.getElementById("RegisterForm").submit();
+    }
+  </script>
   <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
