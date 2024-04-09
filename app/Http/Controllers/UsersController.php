@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
 {
@@ -20,21 +21,33 @@ class UsersController extends Controller
                     "name" => $request["data"]["name"],
                     "password" => hash("sha512", $request["data"]["Password"]),
                     "email" => $request["data"]["email"],
-                    "Authority" => $request["data"]["Authority"],
+                    "Authority" => Session::get("Authority") >= $request["data"]["Authority"] ? $request["data"]["Authority"] : 0,
                     "email_verified_at" => date("Y-m-d H:i:s"),
                     "GameName" => $request["data"]["GameName"]
                 ]);
+                return array("Status" => true, "Message" => "The user has been created");
             }
             else
             {
-               return array("Status" => "Update", User::where([["id", "=", $request["data"]["UserID"]]])->update([
+              User::where([["id", "=", $request["data"]["UserID"]]])->update([
                     "name" => $request["data"]["name"],
                     "email" => $request["data"]["email"],
-                    "Authority" => $request["data"]["Authority"],
+                    "Authority" => Session::get("Authority") >= $request["data"]["Authority"] ? $request["data"]["Authority"] : 0,
                     "GameName" => $request["data"]["GameName"]
-                ]));
+                ]);
+                return array("Status" => true, "Message" => "The user has been editted");
             }
         }
+    }
+
+    public function delete(Request $request)
+    {
+        if(Session::get("UserID") != $request["UserID"]  )
+        {
+            User::where([["id", "=", $request["UserID"]]])->delete();
+            return array("Status" => true, "Message" => "The user has been deleted");
+        }
+        return array("Status" => false, "Message" => "You can't delete your self");
     }
 
 }

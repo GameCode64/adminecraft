@@ -8,24 +8,25 @@
                 <h5 class="modal-title" id="ModalTitleUsername"></h5>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger" style="width: 100%; max-width: 100%; display: none;" id="AlertMessage"></div>
+                <div class="alert alert-danger" style="width: 100%; max-width: 100%; display: none;" id="AlertMessage">
+                </div>
                 <form method="POST" id="UserEditForm" class="pt-3">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="Username">Username</label>
                         <input type="hidden" name="UserID" id="UserID">
-                        <input type="text" name="Username" id="Username" class="form-control" >
+                        <input type="text" name="Username" id="Username" class="form-control">
                     </div>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="Email">Email address</label>
-                        <input type="email" name="email" id="Email" class="form-control"  >
+                        <input type="email" name="email" id="Email" class="form-control">
                     </div>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="GameName">Minecraft Username</label>
-                        <input type="text" name="GameName" id="GameName" class="form-control"  >
+                        <input type="text" name="GameName" id="GameName" class="form-control">
                     </div>
                     <div class="form-outline mb-4" id="PasswordField">
                         <label class="form-label" for="Password">Password</label>
-                        <input type="password" name="Password" id="Password" class="form-control"  >
+                        <input type="password" name="Password" id="Password" class="form-control">
                     </div>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="UserStatus">Status</label>
@@ -96,7 +97,7 @@
                                             class="btn btn-sm btn-warning"><i data-feather="edit"></i></button>
                                         @if($Session["UserID"] != $User->id )
                                         <button type="button" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure you want to delete this user?')"><i
+                                            onclick="if(confirm('Are you sure you want to delete this user?')){DeleteUser({{$User->id}})}"><i
                                                 data-feather="trash"></i></button>
                                         @endif
                                     </div>
@@ -140,6 +141,18 @@
         });
     }
      
+    function DeleteUser(id)
+    {
+        $.ajax({
+            method: "DELETE",
+            url: "{{ route('User.Delete')}}",
+            data: { UserID: id},
+            success: function(result){
+                location.reload();
+            }
+        });
+    }
+
     function CreateUser(e)
     {
         $("#AlertMessage").css("display", "none");
@@ -157,12 +170,12 @@
 
     function AddOrCreateUser()
     {
-       /* $("#UserSaveButton").prop("disabled", true);
+        $("#UserSaveButton").prop("disabled", true);
         $("#UserCloseButton").prop("disabled", true);
         $("#Username").prop("disabled", true);
         $("#Email").prop("disabled", true);
         $("#GameName").prop("disabled", true);
-        $("#UserStatus").prop("disabled", true);*/
+        $("#UserStatus").prop("disabled", true);
             $.post("{{ route('User.AddOrCreate') }}", {
                 data: {
                     UserID: $("#UserID").val(),
@@ -175,7 +188,11 @@
             }).done(function(result){
                 $("#AlertMessage").removeClass("alert-success alert-danger").addClass("alert-success");
                 $("#AlertMessage").css("display", "block");
-                $("#AlertMessage").text(JSON.stringify(result));
+                $("#AlertMessage").text(result.Message);
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+
 
             }).fail(function(){
                 $("#AlertMessage").removeClass("alert-success alert-danger").addClass("alert-danger");

@@ -150,7 +150,7 @@ Route::get('/users', function () {
     return view("body/listusers", [
         "Route" => "users",
         "Session" => Session::all(),
-        "Users" => User::where([["Authority", ">", "0"]])->get(),
+        "Users" => User::all(),
         "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo(),
     ]);
 });
@@ -160,6 +160,12 @@ Route::post('/users', function (Request $Request) {
         return abort(403);
     return (new UsersController)->store($Request);
 })->name("User.AddOrCreate");
+
+Route::delete('/users', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    return (new UsersController)->delete($Request);
+})->name("User.Delete");
 
 Route::get('/myaccount', function () {
     if (!(new LoginController)->IsLoggedIn())
