@@ -31,6 +31,7 @@ class LoginController extends Controller
             if ($CheckUser != null) {
                 if ($CheckUser["Authority"] > 0) {
                     $request->session()->put([
+                        "UserID" => $CheckUser["id"],
                         "Name" => $CheckUser["name"],
                         "GameName" => $CheckUser["GameName"],
                         "Email" => $CheckUser["email"],

@@ -267,7 +267,7 @@ tr.odd>td {
   box-shadow: #212529;
 }
 
-.modal-dialog {
+#FileEditModal .modal-dialog {
   max-width: 90%;
   width: 90%;
   

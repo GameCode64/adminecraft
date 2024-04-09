@@ -6,6 +6,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AdditionalInfo;
+use App\Http\Controllers\UsersController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -134,6 +135,11 @@ Route::get('/logs/fetch', function (Request $Request) {
 })->name("log.fetch");
 
 
+Route::get('/users/{id}', function ($id) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    return User::where([["id", "=", $id]])->first();
+});
 
 Route::get('/users', function () {
     if (!(new LoginController)->IsLoggedIn())
@@ -149,6 +155,12 @@ Route::get('/users', function () {
     ]);
 });
 
+Route::post('/users', function (Request $Request) {
+    if (!(new LoginController)->IsLoggedIn())
+        return abort(403);
+    return (new UsersController)->store($Request);
+})->name("User.AddOrCreate");
+
 Route::get('/myaccount', function () {
     if (!(new LoginController)->IsLoggedIn())
         return redirect("/login");
@@ -161,9 +173,6 @@ Route::get('/myaccount', function () {
         "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo(),
     ]);
 });
-
-
-
 
 Route::get('/settings', function () {
     if (!(new LoginController)->IsLoggedIn())
