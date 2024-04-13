@@ -226,9 +226,14 @@ Route::get('/verifyregistration', function (Request $Request) {
 })->name("verify");
 
 Route::get('/register', function () {
-    return view("register", [
-        "AdditionalInfo" => AdditionalInfo::GetAdditionalInfo()
-    ]);
+    $AdditionalInfo = AdditionalInfo::GetAdditionalInfo();
+    if ($AdditionalInfo["Settings"]["AllowResetPassword"] == "true")
+        return view("register", [
+            "AdditionalInfo" => $AdditionalInfo
+        ]);
+    else {
+        return redirect("/");
+    }
 })->name("register");
 
 Route::get('/logout', function () {
