@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\LoginController;
 use App\Models\Settings;
 use App\Modules\RCON\RCON;
 use Illuminate\Support\Facades\File;
@@ -21,6 +22,16 @@ class AsyncController extends Controller
         return preg_replace("/(\$|§)[a-zA-Z0-9]/", "", $Resp);
     }
 
+    public static function ServiceControl(Request $Req)
+    {
+	 if($Req["server"] == "ghunsquad" && $Req["action"] == "restart")
+	 {
+	    $returnval = 999;
+	    exec("sudo systemctl restart ghunmc", $output, $returnval);
+	    return "Server is being restarted!, Code: $returnval";
+	 }
+	return "Invalid";
+    }
     public static function GetInitialLog()
     {
         return htmlentities(file_get_contents(Settings::where([["Key", "=", "MCLocation"]])->first()["Value"] . "/logs/latest.log"));

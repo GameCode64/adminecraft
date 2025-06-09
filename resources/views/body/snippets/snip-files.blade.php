@@ -58,7 +58,7 @@
     @endforeach
     @foreach ($DirContent['Files'] as $File)
         @foreach ($File as $FileName => $FileInfo)
-            @if ($Session['Authority'] < 2 && strtolower($FileName) == 'server.properties')
+            @if ($Session['Authority'] < 2 && (strtolower($FileName) == 'server.properties' || strtolower($FileName) == "user_jvm_args.txt"  || strtolower($FileName) == "run.sh" || strtolower($FileName) == "eula.txt"))
                 <tr oncontextmenu="return false;">
                     <td>
                         <div class="fi fi-{{ $FileInfo['Extension'] }} fi-size-xs" style="float: left;">

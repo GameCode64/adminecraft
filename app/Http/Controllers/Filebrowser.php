@@ -61,7 +61,7 @@ class Filebrowser extends Controller
         foreach($Request->file("files") as $File)
         {
             $FileName = $File->getClientOriginalName();
-            if( strtolower($FileName) != "server.properties" ||  $_SESSION['Authority'] >= 2)
+            if( (strtolower($Request["file"]) != "server.properties" && strtolower($Request["file"]) != "user_jvm_args.txt" ) ||  $_SESSION['Authority'] >= 2)
             {
                 $TempFileName = $this->Disk->putFile($Path, $File);
                 $this->Disk->move($Path.$TempFileName, $Path.$FileName);
@@ -96,7 +96,7 @@ class Filebrowser extends Controller
     public function destroy(Request $Request)
     {
         if ($this->Disk->exists(Session::get("FBP") . "/" . $Request["file"])) {
-            if( strtolower($Request["file"]) != "server.properties" ||  $_SESSION['Authority'] >= 2)
+            if( (strtolower($Request["file"]) != "server.properties" && strtolower($Request["file"]) != "user_jvm_args.txt" ) ||   $_SESSION['Authority'] >= 2)
             {
 
                 $this->Disk->delete(Session::get("FBP") . "/" . $Request["file"]);
@@ -115,7 +115,7 @@ class Filebrowser extends Controller
             return "Operation cannot been executed!\Destination file already exist!";
         }
         if ($this->Disk->exists(Session::get("FBP") . "/" . $Request["OldName"])) {
-            if( strtolower($Request["file"]) != "server.properties" ||  $_SESSION['Authority'] >= 2)
+            if( (strtolower($Request["file"]) != "server.properties" && strtolower($Request["file"]) != "user_jvm_args.txt" ) ||  $_SESSION['Authority'] >= 2)
             {
                 $this->Disk->move(Session::get("FBP") . "/" . $Request["OldName"], Session::get("FBP") . "/" . $Request["NewName"]);
                 return view("body/snippets/snip-files", [

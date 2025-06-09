@@ -6,7 +6,7 @@
     <div class="row g-3">
         <div class="col-12">
             <div class="card bg-dark border-secondary">
-                <div class="card-header  bg-dark text-light h1 text-center">Console</div>
+                <div class="card-header  bg-dark text-light h1 text-center" style="display:inline-block"><div style="display: contents;">Console</div><div class="float-right"><button class="btn btn-primary" onclick="restartMC()">Restart</button></div></div>
                 <div class="card-body bg-dark text-light card-console">
                     <div class="console" id="console">
                         <pre class="pb-2" id="console-content">{{ $Log }}</pre>
@@ -55,6 +55,28 @@
     setInterval(function() {
         fetchLogLines();
     }, 250);
+
+    function restartMC(){
+	if(confirm("Are you realy sure you want to restart the server?"))
+	{
+		$.ajax({
+		    type: "PATCH",
+		    url: "{{ route('service.control') }}",
+		    data: {
+		        server: "ghunsquad",
+			action: "restart"
+		    },
+		    success: function(result) {
+			alert(result);
+			console.log(result);
+		    },
+		    error: function(error) {
+			    alert(error)
+		    }
+	});
+	}
+	return false;
+    }
 
     function fetchLogLines() {
         fetch("{{ route('console.log') }}")
